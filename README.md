@@ -1,1 +1,11 @@
 # ProtoShotXAI
+This repository provides the training and algorithm demonstration for the paper
+ProtoShotXAI: Prototypical Few-Shot Architecture for Explainable AI. 
+
+### Getting Strated
+Install dependencies (I prefer a conda environment)
+- `conda create -n ProtoShotXAI python=3.6`
+- `conda activate ProtoShotXAI`
+- `pip install -r requirements.txt`
+- `python -m ipykernel install --user --name ProtoShotXAI`
+- `python setup.py develop` (or `python setup.py install` if you don't want to do development)
