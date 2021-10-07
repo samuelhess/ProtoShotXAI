@@ -46,20 +46,21 @@ class ProtoShotXAI:
         return score
 
     def image_feature_attribution(self,support_data,query, class_indx, ref_pixel, pad=4 , progress_bar=True):
+        rows = np.shape(query)[1]
+        cols = np.shape(query)[2]
+        chnls = np.shape(query)[3]
+        
         query_expand = np.expand_dims(np.copy(query),axis=0) # Batch size of 1
         support_data_expand = np.expand_dims(np.copy(support_data),axis=0) # Only 1 support set
 
         features = self.model([support_data_expand,query_expand])
         ref_score = self.compute_score_from_features(features,class_indx)
 
-        rows = np.shape(query)[1]
-        cols = np.shape(query)[2]
-
-        score_matrix = np.ones((rows,cols))
-        peturbed_images = np.copy(query)
-        peturbed_images = np.tile(peturbed_images,(cols,1,1,1))
+        score_matrix = np.zeros((rows,cols))
+        peturbed_images = np.zeros((cols,rows,cols,chnls))
         for ii in tqdm(range(rows),disable=(not progress_bar)):
             for jj in range(cols):
+                peturbed_images[jj,:,:,:] = np.copy(query)
                 min_ii = np.max([ii-pad,0])
                 max_ii = np.min([ii+pad,rows])
                 min_jj = np.max([jj-pad,0])
