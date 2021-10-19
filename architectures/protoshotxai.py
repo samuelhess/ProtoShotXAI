@@ -14,8 +14,9 @@ class ProtoShotXAI:
         else:
             self.class_weights = None
             self.class_bias = None
-
-        input_shape = model.layers[input_layer].input_shape[0]
+        
+        input_shape = model.input.shape
+        # input_shape = model.layers[input_layer].input_shape[0]
         output_vals = model.layers[feature_layer].output
         model = Model(inputs=model.input, outputs=output_vals)
         
@@ -65,9 +66,8 @@ class ProtoShotXAI:
                 max_ii = np.min([ii+pad,rows])
                 min_jj = np.max([jj-pad,0])
                 max_jj = np.min([jj+pad,cols])
-                peturbed_images[jj,min_ii:max_ii,min_jj:max_jj,0] = ref_pixel[0]
-                peturbed_images[jj,min_ii:max_ii,min_jj:max_jj,1] = ref_pixel[1]
-                peturbed_images[jj,min_ii:max_ii,min_jj:max_jj,2] = ref_pixel[2]
+                for ichnl in range(chnls):
+                    peturbed_images[jj,min_ii:max_ii,min_jj:max_jj,ichnl] = ref_pixel[ichnl]
             
             peturbed_images_expand = np.expand_dims(np.copy(peturbed_images),axis=0)
             features = self.model([support_data_expand,peturbed_images_expand])
