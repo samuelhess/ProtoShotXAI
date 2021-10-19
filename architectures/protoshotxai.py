@@ -37,8 +37,10 @@ class ProtoShotXAI:
         s_feature_t, q_feature_t, s_feature_norm, q_feature_norm = features
         s_feature_t = s_feature_t.numpy()
         q_feature_t = q_feature_t.numpy()
-        s_feature_t = s_feature_t*np.tile(np.expand_dims(self.class_weights[:,iclass],axis=(0,1)),(s_feature_t.shape[0],s_feature_t.shape[1],1)) 
-        q_feature_t = q_feature_t*np.tile(np.expand_dims(self.class_weights[:,iclass],axis=(0,1)),(q_feature_t.shape[0],q_feature_t.shape[1],1))
+        if self.class_weights != None:
+            s_feature_t = s_feature_t*np.tile(np.expand_dims(self.class_weights[:,iclass],axis=(0,1)),(s_feature_t.shape[0],s_feature_t.shape[1],1)) 
+            q_feature_t = q_feature_t*np.tile(np.expand_dims(self.class_weights[:,iclass],axis=(0,1)),(q_feature_t.shape[0],q_feature_t.shape[1],1))
+
         s_feature_norm = np.sqrt(np.sum(s_feature_t*s_feature_t,axis=-1))
         q_feature_norm = np.sqrt(np.sum(q_feature_t*q_feature_t,axis=-1))
         den = s_feature_norm * q_feature_norm
@@ -52,8 +54,10 @@ class ProtoShotXAI:
         s_feature_t, q_feature_t, s_feature_norm, q_feature_norm = features
         s_feature_t = s_feature_t.numpy()
         q_feature_t = q_feature_t.numpy()
-        s_feature_t = s_feature_t*np.tile(np.expand_dims(self.class_weights[:,iclass],axis=(0,1)),(s_feature_t.shape[0],s_feature_t.shape[1],1)) 
-        q_feature_t = q_feature_t*np.tile(np.expand_dims(self.class_weights[:,iclass],axis=(0,1)),(q_feature_t.shape[0],q_feature_t.shape[1],1))
+        if self.class_weights != None:
+            s_feature_t = s_feature_t*np.tile(np.expand_dims(self.class_weights[:,iclass],axis=(0,1)),(s_feature_t.shape[0],s_feature_t.shape[1],1)) 
+            q_feature_t = q_feature_t*np.tile(np.expand_dims(self.class_weights[:,iclass],axis=(0,1)),(q_feature_t.shape[0],q_feature_t.shape[1],1))
+
         s_feature_norm = np.sqrt(np.sum(s_feature_t*s_feature_t,axis=-1))
         q_feature_norm = np.sqrt(np.sum(q_feature_t*q_feature_t,axis=-1))
         den = s_feature_norm * q_feature_norm
