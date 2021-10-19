@@ -46,11 +46,25 @@ class ProtoShotXAI:
 
         return score
 
-    def compute_score(self, peturbed_images_expand, query_expand, class_indx):
+    def compute_features(self,support_data_expand,query_expand,iclass):
+
+        features = self.model([support_data_expand,query_expand])
+        s_feature_t, q_feature_t, s_feature_norm, q_feature_norm = features
+        s_feature_t = s_feature_t.numpy()
+        q_feature_t = q_feature_t.numpy()
+        s_feature_t = s_feature_t*np.tile(np.expand_dims(self.class_weights[:,iclass],axis=(0,1)),(s_feature_t.shape[0],s_feature_t.shape[1],1)) 
+        q_feature_t = q_feature_t*np.tile(np.expand_dims(self.class_weights[:,iclass],axis=(0,1)),(q_feature_t.shape[0],q_feature_t.shape[1],1))
+        s_feature_norm = np.sqrt(np.sum(s_feature_t*s_feature_t,axis=-1))
+        q_feature_norm = np.sqrt(np.sum(q_feature_t*q_feature_t,axis=-1))
+        den = s_feature_norm * q_feature_norm
+
+        return s_feature_t, q_feature_t, den
+
+    def compute_score(self, support_data_expand, query_expand, class_indx):
         # query_expand = np.expand_dims(np.copy(query),axis=0) # Batch size of 1
         # support_data_expand = np.expand_dims(np.copy(support_data),axis=0) # Only 1 support set
 
-        features = self.model([peturbed_images_expand,query_expand])
+        features = self.model([support_data_expand,query_expand])
         scores = self.compute_score_from_features(features,class_indx)
         return scores
 
