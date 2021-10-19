@@ -46,6 +46,14 @@ class ProtoShotXAI:
 
         return score
 
+    def compute_score(self, peturbed_images_expand, query_expand, class_indx):
+        # query_expand = np.expand_dims(np.copy(query),axis=0) # Batch size of 1
+        # support_data_expand = np.expand_dims(np.copy(support_data),axis=0) # Only 1 support set
+
+        features = self.model([peturbed_images_expand,query_expand])
+        scores = self.compute_score_from_features(features,class_indx)
+        return scores
+
     def image_feature_attribution(self,support_data,query, class_indx, ref_pixel, pad=4 , progress_bar=True):
         rows = np.shape(query)[1]
         cols = np.shape(query)[2]
