@@ -1,6 +1,8 @@
 # ProtoShotXAI
 This repository provides the training and algorithm demonstration for the paper
-ProtoShotXAI: Prototypical Few-Shot Architecture for Explainable AI. 
+[ProtoShotXAI: Prototypical Few-Shot Architecture for Explainable AI.](https://arxiv.org/abs/2110.11597)
+
+We are still in the process of updating this repository so please be patient and check back soon for additional instructions and pretrained models -- 10/26/2021
 
 ### Getting Strated
 Install dependencies (I prefer a conda environment)
