@@ -11,6 +11,7 @@ Install dependencies (I prefer a conda environment)
 - `pip install -r requirements.txt`
 - `python -m ipykernel install --user --name ProtoShotXAI`
 - `python setup.py develop` (or `python setup.py install` if you don't want to do development)
+
 Download trained models for XAI
 - trained models are available for public download at https://drive.google.com/file/d/1L2LsaWgq5l-YPuIU-m1QIFuS2YJZ3eKn/view?usp=sharing
 - unzip file to base directory (i.e., ./trained_models/)
